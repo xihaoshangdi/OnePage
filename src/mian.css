@@ -1,0 +1,83 @@
+/* Css reset */
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  outline-style: none;
+  border: none;
+
+  list-style: none;
+}
+/* Css */
+body {
+  background-color: #eeeeee;
+}
+
+.siteHeader {
+  width: 325px;
+  height: 40px;
+  margin: 40px 25px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.siteHeader > input {
+  padding-left: 5px;
+
+  font-family: 'Microsoft soft';
+
+  flex-basis: 230px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+}
+
+.siteHeader > button {
+  flex-basis: 70px;
+  border: none;
+  font-size: 20px;
+}
+.siteMain {
+  margin: 0 25px;
+  width: 325px;
+}
+.siteMain > ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.siteMain .siteContainer {
+  width: 150px;
+  height: 160px;
+
+  margin-bottom: 25px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.siteContainer > .logo {
+  width: 72px;
+  height: 72px;
+
+  font-size: 64px;
+  text-align: center;
+  line-height: 64px;
+}
+
+.siteContainer > .text {
+}
+
+.siteLast {
+}
+
+.siteLast > .logo {
+}
+
+.siteLast > .text {
+}
