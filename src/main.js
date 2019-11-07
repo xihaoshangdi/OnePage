@@ -6,11 +6,12 @@ let siteList = JSON.parse(siteStr) || [
 ];
 
 init(siteList);
-removeCard();
+
+// removeCard();
 
 function init(initList) {
   //渲染新增Card
-  let addStr = `<li>
+  let addStr = `<li name='addCard'>
   <div class="siteContainer siteLast">
     <div class="logo">a</div>
     <div class="text">新增</div>
@@ -53,10 +54,15 @@ function Render(cardList) {
   $('.siteLast')
     .parent()
     .before(renderResult);
+  //为card绑定移除事件
+  $('.siteMain li[name!="addCard"]').contextmenu(removeCard);
 }
 
 //删除函数
-function removeCard() {}
+function removeCard(e) {
+  e.preventDefault();
+  $(e.target).remove();
+}
 
 //离开保存
 onbeforeunload = function() {
