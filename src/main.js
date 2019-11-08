@@ -19,7 +19,7 @@ const render = () => {
     <li>
       <a href=${node.href} >
         <div class="siteContainer" >
-          <div class="logo">${node.logo}</div>
+          <img class="logo" src=${node.favicon}></img>
           <div class="text">${node.text}</div>
         </div>
       </a>
@@ -29,6 +29,7 @@ const render = () => {
     $('.siteLast')
       .parent()
       .before($li);
+
     //绑定删除事件
     $li.contextmenu(e => {
       e.stopPropagation(); // 阻止冒泡
@@ -36,16 +37,28 @@ const render = () => {
       siteData.splice(index, 1);
       render();
     });
+    //设置图片加载事件
+    const $sitebox = $li.children().children();
+    const $image = $($sitebox.children().get(0));
+    const $text = $($sitebox.children().get(1));
+    $image.one('error', () => {
+      const $logo = $(`<div class="logo">${node.logo}</div>`);
+      $text.before($logo);
+      $image.remove();
+    });
   });
 };
 
 const addCard = () => {
   const url = prompt('请输入要添加的网址', 'https://');
   const pattern = /(http|https):\/\/(www.)?(\w+(\.)?)+/;
-  let realUrl = url.match(pattern)[0];
-  let text = realUrl.replace(/(http|https):\/\/(www.)?/, '');
+  const realUrl = url.match(pattern)[0];
+  const text = realUrl.replace(/(http|https):\/\/(www.)?/, '');
+  const favicon = `https://api.faviconkit.com/${text}/144`;
+  //检测图片
   let card = {
     href: realUrl,
+    favicon: favicon,
     logo: text[0],
     text: text
   };
