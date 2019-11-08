@@ -1,45 +1,21 @@
-//读取=>解析=>初始化
-let siteStr = localStorage.getItem('siteStr');
-
-let siteList = JSON.parse(siteStr) || [
+//获取站点数据对象
+const siteData = JSON.parse(localStorage.getItem('siteData')) || [
   { href: 'https://bilibili.com', logo: 'B', text: 'Bilibili' }
 ];
 
-init(siteList);
-
-// removeCard();
-
-function init(initList) {
-  //渲染新增Card
-  let addStr = `<li name='addCard'>
-  <div class="siteContainer siteLast">
-    <div class="logo">a</div>
-    <div class="text">新增</div>
-  </div>
-  </li>`;
-  $('.siteMain > ul').append(addStr);
-  //监听新增Card返回新增对象到siteList
-  $('.siteLast').bind('click', function() {
-    initList.unshift(addCard());
-  });
+const init = () => {
   //渲染初始列表
-  Render(initList);
-}
-function addCard() {
-  const url = prompt('请输入要添加的网址', 'https://');
-  let card = {
-    href: url,
-    logo: url[8],
-    text: url.substring(8)
-  };
-  Render([card]);
-  return card;
-}
-//渲染函数
-function Render(cardList) {
-  let renderResult = [];
-  $.each(cardList, (index, node) => {
-    renderResult.unshift(`
+  render(siteData);
+  //设置监听
+  $('.siteLast').bind('click', addCard);
+};
+
+const render = () => {
+  //清空
+  $('.siteMain li[name!="addCard"]').remove();
+  //重新渲染
+  $.each(siteData, (index, node) => {
+    const $li = $(`
     <li>
       <a href=${node.href} >
         <div class="siteContainer" >
@@ -49,23 +25,40 @@ function Render(cardList) {
       </a>
     </li>
     `);
+    //渲染到新增Card前面
+    $('.siteLast')
+      .parent()
+      .before($li);
+    //绑定删除事件
+    $li.contextmenu(e => {
+      e.stopPropagation(); // 阻止冒泡
+      e.preventDefault(); //阻止默认
+      siteData.splice(index, 1);
+      render();
+    });
   });
-  //渲染到新增Card前面
-  $('.siteLast')
-    .parent()
-    .before(renderResult);
-  //为card绑定移除事件
-  $('.siteMain li[name!="addCard"]').contextmenu(removeCard);
-}
-
-//删除函数
-function removeCard(e) {
-  e.preventDefault();
-  $(e.target).remove();
-}
-
-//离开保存
-onbeforeunload = function() {
-  let siteStr = JSON.stringify(siteList);
-  localStorage.setItem('siteStr', siteStr);
 };
+
+const addCard = () => {
+  const url = prompt('请输入要添加的网址', 'https://');
+  const pattern = /(http|https):\/\/(www.)?(\w+(\.)?)+/;
+  let realUrl = url.match(pattern)[0];
+  let text = realUrl.replace(/(http|https):\/\/(www.)?/, '');
+  let card = {
+    href: realUrl,
+    logo: text[0],
+    text: text
+  };
+  siteData.unshift(card);
+  render();
+};
+
+//离开保存;
+onbeforeunload = () => {
+  const data = JSON.stringify(siteData);
+  console.log(data);
+  localStorage.setItem('siteData', data);
+};
+
+//初始化
+init();
