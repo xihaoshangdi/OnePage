@@ -2,7 +2,7 @@
 一个前端自定义的前端导航页面
 
 
-#开发
+# 开发
 yarn global add parcel-bundler
 parcel src/index.html
 
@@ -10,6 +10,6 @@ parcel src/index.html
 faviconkit.com
 jquery
 
-#build
+# build
 
 parcel build src/index.html --no-minify --public-url ./
