@@ -69,7 +69,6 @@ const addCard = () => {
 //离开保存;
 onbeforeunload = () => {
   const data = JSON.stringify(siteData);
-  console.log(data);
   localStorage.setItem('siteData', data);
 };
 
