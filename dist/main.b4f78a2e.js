@@ -120,9 +120,50 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"epB2":[function(require,module,exports) {
 //获取站点数据对象
 var siteData = JSON.parse(localStorage.getItem('siteData')) || [{
-  href: 'https://bilibili.com',
-  logo: 'B',
-  text: 'Bilibili'
+  href: 'https://github.com',
+  favicon: 'https://api.faviconkit.com/github.com/144',
+  logo: 'g',
+  text: 'github.com'
+}, {
+  href: 'https://developer.mozilla.org',
+  favicon: 'https://api.faviconkit.com/developer.mozilla.org/144',
+  logo: 'd',
+  text: 'developer.mozilla.org'
+}, {
+  href: 'https://store.steampowered.com',
+  favicon: 'https://api.faviconkit.com/store.steampowered.com/144',
+  logo: 's',
+  text: 'store.steampowered.com'
+}, {
+  href: 'https://store.ubi.com',
+  favicon: 'https://api.faviconkit.com/store.ubi.com/144',
+  logo: 's',
+  text: 'store.ubi.com'
+}, {
+  href: 'https://www.facebook.com',
+  favicon: 'https://api.faviconkit.com/facebook.com/144',
+  logo: 'f',
+  text: 'facebook.com'
+}, {
+  href: 'https://twitter.com',
+  favicon: 'https://api.faviconkit.com/twitter.com/144',
+  logo: 't',
+  text: 'twitter.com'
+}, {
+  href: 'https://www.iconfont.cn',
+  favicon: 'https://api.faviconkit.com/iconfont.cn/144',
+  logo: 'i',
+  text: 'iconfont.cn'
+}, {
+  href: 'https://www.ele.me',
+  favicon: 'https://api.faviconkit.com/ele.me/144',
+  logo: 'e',
+  text: 'ele.me'
+}, {
+  href: 'https://youtube.com',
+  favicon: 'https://api.faviconkit.com/youtube.com/144',
+  logo: 'y',
+  text: 'youtube.com'
 }];
 
 var init = function init() {
@@ -133,7 +174,6 @@ var init = function init() {
 
   $('#search').focus(function () {
     $(document).off();
-    console.log('qqq');
   });
   $('#search').blur(function () {
     $(document).keydown(keyOpen);
@@ -204,4 +244,4 @@ onbeforeunload = function onbeforeunload() {
 
 init();
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.e8d3ba36.js.map
+//# sourceMappingURL=main.b4f78a2e.js.map
