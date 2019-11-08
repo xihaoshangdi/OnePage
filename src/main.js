@@ -8,6 +8,14 @@ const init = () => {
   render(siteData);
   //设置监听
   $('.siteLast').bind('click', addCard);
+  //
+  $('#search').focus(function() {
+    $(document).off();
+    console.log('qqq');
+  });
+  $('#search').blur(function() {
+    $(document).keydown(keyOpen);
+  });
 };
 
 const render = () => {
@@ -64,6 +72,15 @@ const addCard = () => {
   };
   siteData.unshift(card);
   render();
+};
+
+const keyOpen = e => {
+  const { key } = e;
+  $.each(siteData, (index, node) => {
+    if (node.text[0].toLowerCase() === key) {
+      window.open(node.href);
+    }
+  });
 };
 
 //离开保存;

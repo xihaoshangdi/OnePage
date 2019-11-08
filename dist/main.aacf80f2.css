@@ -86,7 +86,7 @@ body {
   .siteHeader > form::before {
     position: absolute;
     content: '';
-    background: url('./images/Search.png') no-repeat;
+    background: url('Search.c0fa61e3.png') no-repeat;
     min-width: 20px;
     min-height: 20px;
     position: absolute;
@@ -176,3 +176,6 @@ body {
 .siteLast {
   cursor: pointer;
 }
+
+
+/*# sourceMappingURL=main.aacf80f2.css.map */
