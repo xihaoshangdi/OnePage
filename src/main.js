@@ -57,11 +57,13 @@ const siteData = JSON.parse(localStorage.getItem('siteData')) || [
 ];
 
 const init = () => {
+  //请求背景图
+  backImage();
   //渲染初始列表
-  render(siteData);
+  render();
   //设置监听
+  $(document).keydown(keyOpen);
   $('.siteLast').bind('click', addCard);
-  //
   $('#search').focus(function() {
     $(document).off();
   });
@@ -79,32 +81,38 @@ const render = () => {
     <li>
       <a href=${node.href} >
         <div class="siteContainer" >
-          <img class="logo" src=${node.favicon}></img>
+          <div class="logo">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-loading"></use>
+                <animateTransform
+                      attributeName="transform"
+                      attributeType="XML"
+                      type="rotate"
+                      from="0"
+                      to="360"
+                      dur="3"
+                      repeatCount="indefinite" />
+              </svg>
+          </div>
           <div class="text">${node.text}</div>
         </div>
       </a>
     </li>
     `);
+
+    //加载图片
+    loadImage($li, node);
     //渲染到新增Card前面
     $('.siteLast')
       .parent()
       .before($li);
-
     //绑定删除事件
     $li.contextmenu(e => {
       e.stopPropagation(); // 阻止冒泡
       e.preventDefault(); //阻止默认
       siteData.splice(index, 1);
-      render();
-    });
-    //设置图片加载事件
-    const $sitebox = $li.children().children();
-    const $image = $($sitebox.children().get(0));
-    const $text = $($sitebox.children().get(1));
-    $image.one('error', () => {
-      const $logo = $(`<div class="logo">${node.logo}</div>`);
-      $text.before($logo);
-      $image.remove();
+      $li.remove();
+      // render();
     });
   });
 };
@@ -131,8 +139,33 @@ const keyOpen = e => {
   $.each(siteData, (index, node) => {
     if (node.text[0].toLowerCase() === key) {
       window.open(node.href);
+      return false;
     }
   });
+};
+
+//Image
+const loadImage = ($li, node) => {
+  const $sitebox = $li.children().children();
+  const $logo = $($sitebox.children().get(0));
+  const $text = $($sitebox.children().get(1));
+  const img = new Image();
+  img.onload = function() {
+    const $img = $(img);
+    $logo.remove();
+    $text.before($img.addClass('logo'));
+  };
+  img.src = node.favicon;
+};
+
+const backImage = () => {
+  const width = Math.ceil($('body').width());
+  const height = Math.ceil($('body').height());
+  const random = Math.ceil(Math.random() * 10);
+  const ImgUrl = `https://picsum.photos/${width}/${height}/?blur=${random}`;
+  if (width > 500) {
+    $('body').css('background-image', `url(${ImgUrl})`);
+  }
 };
 
 //离开保存;

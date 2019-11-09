@@ -45,6 +45,12 @@ body {
   background-color: #eeeeee;
 }
 
+@media (min-width: 500px) {
+  body {
+    background-color: none;
+  }
+}
+
 .siteHeader {
   max-width: 325px;
   margin: 20px auto;
@@ -52,7 +58,8 @@ body {
 @media (min-width: 500px) {
   .siteHeader {
     max-width: 600px;
-    margin: 40px auto;
+    padding: 43.5px 0;
+    margin: 0 auto;
   }
 }
 .siteHeader > form {
@@ -117,6 +124,11 @@ body {
   .siteMain {
     max-width: 1000px;
     margin: 0 auto;
+    height: 450px;
+    overflow: auto;
+  }
+  .siteMain::-webkit-scrollbar {
+    width: 0;
   }
 }
 
@@ -155,6 +167,23 @@ body {
   align-items: center;
 }
 
+@media (min-width: 500px) {
+  .siteMain .siteContainer {
+    min-width: 140px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    transition: all 1s ease-in-out;
+  }
+  .siteMain .siteContainer:hover {
+    opacity: 1;
+    border-radius: 50%;
+  }
+}
+
 .siteContainer > .logo {
   width: 72px;
   height: 72px;
@@ -178,4 +207,4 @@ body {
 }
 
 
-/*# sourceMappingURL=main.aacf80f2.css.map */
+/*# sourceMappingURL=main.89672d62.css.map */

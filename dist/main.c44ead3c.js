@@ -167,11 +167,13 @@ var siteData = JSON.parse(localStorage.getItem('siteData')) || [{
 }];
 
 var init = function init() {
-  //渲染初始列表
-  render(siteData); //设置监听
+  //请求背景图
+  backImage(); //渲染初始列表
 
-  $('.siteLast').bind('click', addCard); //
+  render(); //设置监听
 
+  $(document).keydown(keyOpen);
+  $('.siteLast').bind('click', addCard);
   $('#search').focus(function () {
     $(document).off();
   });
@@ -185,7 +187,9 @@ var render = function render() {
   $('.siteMain li[name!="addCard"]').remove(); //重新渲染
 
   $.each(siteData, function (index, node) {
-    var $li = $("\n    <li>\n      <a href=".concat(node.href, " >\n        <div class=\"siteContainer\" >\n          <img class=\"logo\" src=").concat(node.favicon, "></img>\n          <div class=\"text\">").concat(node.text, "</div>\n        </div>\n      </a>\n    </li>\n    ")); //渲染到新增Card前面
+    var $li = $("\n    <li>\n      <a href=".concat(node.href, " >\n        <div class=\"siteContainer\" >\n          <div class=\"logo\">\n              <svg class=\"icon\" aria-hidden=\"true\">\n                <use xlink:href=\"#icon-loading\"></use>\n                <animateTransform\n                      attributeName=\"transform\"\n                      attributeType=\"XML\"\n                      type=\"rotate\"\n                      from=\"0\"\n                      to=\"360\"\n                      dur=\"3\"\n                      repeatCount=\"indefinite\" />\n              </svg>\n          </div>\n          <div class=\"text\">").concat(node.text, "</div>\n        </div>\n      </a>\n    </li>\n    ")); //加载图片
+
+    loadImage($li, node); //渲染到新增Card前面
 
     $('.siteLast').parent().before($li); //绑定删除事件
 
@@ -195,16 +199,7 @@ var render = function render() {
       e.preventDefault(); //阻止默认
 
       siteData.splice(index, 1);
-      render();
-    }); //设置图片加载事件
-
-    var $sitebox = $li.children().children();
-    var $image = $($sitebox.children().get(0));
-    var $text = $($sitebox.children().get(1));
-    $image.one('error', function () {
-      var $logo = $("<div class=\"logo\">".concat(node.logo, "</div>"));
-      $text.before($logo);
-      $image.remove();
+      $li.remove(); // render();
     });
   });
 };
@@ -231,8 +226,36 @@ var keyOpen = function keyOpen(e) {
   $.each(siteData, function (index, node) {
     if (node.text[0].toLowerCase() === key) {
       window.open(node.href);
+      return false;
     }
   });
+}; //Image
+
+
+var loadImage = function loadImage($li, node) {
+  var $sitebox = $li.children().children();
+  var $logo = $($sitebox.children().get(0));
+  var $text = $($sitebox.children().get(1));
+  var img = new Image();
+
+  img.onload = function () {
+    var $img = $(img);
+    $logo.remove();
+    $text.before($img.addClass('logo'));
+  };
+
+  img.src = node.favicon;
+};
+
+var backImage = function backImage() {
+  var width = Math.ceil($('body').width());
+  var height = Math.ceil($('body').height());
+  var random = Math.ceil(Math.random() * 10);
+  var ImgUrl = "https://picsum.photos/".concat(width, "/").concat(height, "/?blur=").concat(random);
+
+  if (width > 500) {
+    $('body').css('background-image', "url(".concat(ImgUrl, ")"));
+  }
 }; //离开保存;
 
 
@@ -244,4 +267,4 @@ onbeforeunload = function onbeforeunload() {
 
 init();
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.b4f78a2e.js.map
+//# sourceMappingURL=main.c44ead3c.js.map
